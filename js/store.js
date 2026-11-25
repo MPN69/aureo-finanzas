@@ -1132,7 +1132,10 @@
           return this.state.recurring[idx];
         }
       }
-      const created = Object.assign({ id: uid("rec"), active: true }, rec);
+      const created = Object.assign({}, rec, {
+        id: rec.id || uid("rec"),
+        active: rec.active ?? true,
+      });
       this.state.recurring.push(created);
       this.materializeRecurring(false);
       await this.save();

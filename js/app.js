@@ -89,7 +89,9 @@
     onClose = null,
   }) {
     if (activeModalOnClose) {
-      try { activeModalOnClose(); } catch {}
+      try {
+        activeModalOnClose();
+      } catch {}
     }
     activeModalOnClose = onClose;
     const backdrop = $("#modal-backdrop");
@@ -104,7 +106,9 @@
 
   function closeModal() {
     if (activeModalOnClose) {
-      try { activeModalOnClose(); } catch {}
+      try {
+        activeModalOnClose();
+      } catch {}
       activeModalOnClose = null;
     }
     $("#modal-backdrop").classList.remove("open");
@@ -2063,8 +2067,14 @@
     const models = [
       { id: "gemini-3.8-flash", label: "gemini-3.8-flash (Rápido y preciso)" },
       { id: "gemini-3.8-pro", label: "gemini-3.8-pro (Pro)" },
-      { id: "gemini-4-hydrogen", label: "gemini-4-hydrogen (Gemini 4 equilibrado)" },
-      { id: "gemini-4-carbon", label: "gemini-4-carbon (Gemini 4 máxima precisión)" },
+      {
+        id: "gemini-4-hydrogen",
+        label: "gemini-4-hydrogen (Gemini 4 equilibrado)",
+      },
+      {
+        id: "gemini-4-carbon",
+        label: "gemini-4-carbon (Gemini 4 máxima precisión)",
+      },
     ];
     return models
       .map(
@@ -2160,7 +2170,10 @@
         }
 
         async function populateCameras(activeId = s.preferredCameraId) {
-          if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+          if (
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.enumerateDevices
+          ) {
             return [];
           }
           try {
@@ -2200,7 +2213,9 @@
             try {
               stream = await navigator.mediaDevices.getUserMedia(constraints);
             } catch {
-              stream = await navigator.mediaDevices.getUserMedia({ video: true });
+              stream = await navigator.mediaDevices.getUserMedia({
+                video: true,
+              });
             }
             video.srcObject = stream;
             video.style.display = "block";
@@ -2208,7 +2223,8 @@
             btnSnap.style.display = "inline-flex";
 
             const activeTrack = stream.getVideoTracks()[0];
-            const activeId = activeTrack?.getSettings?.().deviceId || deviceId || "";
+            const activeId =
+              activeTrack?.getSettings?.().deviceId || deviceId || "";
             if (activeId) {
               s.preferredCameraId = activeId;
               Store.save(false);
@@ -2234,7 +2250,9 @@
         );
 
         $("#btn-refresh-cams", body).addEventListener("click", async () => {
-          const cams = await populateCameras(camSelect.value || s.preferredCameraId);
+          const cams = await populateCameras(
+            camSelect.value || s.preferredCameraId,
+          );
           if (cams.length && cams.every((c) => !c.label)) {
             await startCamera(camSelect.value || "");
           } else {
